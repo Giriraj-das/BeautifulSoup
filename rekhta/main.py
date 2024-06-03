@@ -15,8 +15,9 @@ def take_poets_by_location():
     page = 1
     full_list = []
     while True:
-        URL = f'https://www.rekhta.org/PoetCollection?info=locationwiseentity&lang=1&StartsWith=All&route=%27location/pakistan/&pageNumber={page}'
-        req = requests.get(URL, headers=headers)
+        url = f'https://www.rekhta.org/PoetCollection?\
+        info=locationwiseentity&lang=1&StartsWith=All&route=%27location/pakistan/&pageNumber={page}'
+        req = requests.get(url, headers=headers)
         src = req.text
 
         soup = BeautifulSoup(src, 'lxml')
@@ -31,7 +32,7 @@ def take_poets_by_location():
         full_list.extend(all_hrefs)
         page += 1
 
-    with open('data/all_poets.txt', 'w') as file:
+    with open('data/all_poets.txt', 'w', encoding='utf-8') as file:
         file.writelines(f"{item}\n" for item in full_list)
     print(len(full_list), full_list)
 
@@ -43,7 +44,7 @@ def write_to_file(path: str, string: str, *args: str | List[str]) -> None:
     string — string to save,\n
     location — list of locations.
     """
-    with open(path, 'a') as f:
+    with open(path, 'a', encoding='utf-8') as f:
         if args:
             data = []
             for arg in args:
@@ -57,8 +58,8 @@ def write_to_file(path: str, string: str, *args: str | List[str]) -> None:
             f.write(f"{string}\n")
 
 
-def take_nazms_url():
-    with open('data/all_poets.txt') as file:
+def take_nazms_url() -> None:
+    with open('data/all_poets.txt', encoding='utf-8') as file:
         src = file.readlines()
 
     for poet_url in src:
@@ -100,8 +101,8 @@ def take_nazms_url():
             print(f'Ошибка при обработке {poet_url}: {e}')
 
 
-def take_nazms():
-    with open('data/validated_poets.txt') as file:
+def take_nazms() -> None:
+    with open('data/validated_poets.txt', encoding='utf-8') as file:
         src = file.readlines()
 
     for url in src:
@@ -170,7 +171,7 @@ def take_nazms():
                 if not os.path.exists(f'data/poets/{poet_name}'):
                     os.makedirs(f'data/poets/{poet_name}')
 
-                with open(f'data/poets/{poet_name}/{nazm_url[1]}.txt', 'w') as poet_file:
+                with open(f'data/poets/{poet_name}/{nazm_url[1]}.txt', 'w', encoding='utf-8') as poet_file:
                     poet_file.writelines(f"{el}\n" for el in nazm_for_write)
 
                 print(f'{nazm_number} nazm saved')
@@ -183,8 +184,8 @@ def take_nazms():
 
 
 def main():
-    take_poets_by_location()
-    take_nazms_url()
+    # take_poets_by_location()
+    # take_nazms_url()
     take_nazms()
 
 

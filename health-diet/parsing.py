@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 import random
 from time import sleep
 
@@ -62,6 +63,9 @@ def write_data():
         proteins = table_head[2].string
         fats = table_head[3].string
         carbohydrates = table_head[4].string
+
+        if not os.path.exists(f'data'):
+            os.makedirs(f'data')
 
         with open(f'data/{count}_{category_name}.csv', 'w', encoding='utf-8') as file:
             writer = csv.writer(file)
